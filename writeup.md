@@ -129,9 +129,7 @@ A bar chart shows us the a large majority of our users visits fewer than 8 pages
 
 Existing users convert at almost 5 times the rate of new users, while the ratio of new to existing users is roughly 2:1.
 
-# Modeling
-
-## Model Selection
+## Hyptheses
 
 After doing some exploratory data analysis, we have some hypotheses for what factors impact conversion rate:
 
@@ -140,6 +138,10 @@ After doing some exploratory data analysis, we have some hypotheses for what fac
 3. Conversion rate goes down linearly with age (logged)
 4. Ads and SEO tend to convert better than direct visits
 5. Users from US, UK and Germany convert more than users from China.
+
+# Modeling
+
+## Model Selection
 
 Since we need to make some concrete recommendations, our model needs to have high interpretability as well as high predictive power. This limits us to a number of models where we can interpret feature importances. Some candidates are: logistics regression (LogR), random forest (RF), gradient boosting decision tree (GDBR). If there is more time, xgboost might also be considered.
 
