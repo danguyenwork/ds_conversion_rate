@@ -15,7 +15,7 @@ class CustomMixin(TransformerMixin):
         for key in self.get_params():
             setattr(self, key, kwargs[key])
 
-# taking the log of age
+# taking the log transformation of age
 class LogAge(CustomMixin):
     def fit(self, X, y):
         return self
@@ -56,7 +56,7 @@ class Dummify(CustomMixin):
         X = pd.get_dummies(X, columns=['source', 'new_user', 'country'],drop_first=True)
         return X
 
-# perform an downsample of the majority class
+# perform a downsample of the majority class
 def perform_resample(df):
     df_majority = df[df.converted == 0]
     df_minority = df[df.converted == 1]

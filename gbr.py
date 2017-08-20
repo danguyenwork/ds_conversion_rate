@@ -18,7 +18,7 @@ def make_test_data(df, sample=False):
     X['source'] = enc.fit_transform(X['source'])
 
     X_train, X_test, y_train, y_test = train_test_split(X,y,stratify=y)
-    return enc, X_train, X_test, y_train, y_test
+    return X_train, X_test, y_train, y_test
 
 # fit a RandomForest Classifier
 def perform_prediction(X_train, y_train, X_test):
@@ -33,20 +33,21 @@ if __name__ == '__main__':
     df = pd.read_csv('conversion_data.csv')
     df = df[df.age <= 60]
 
-    enc, X_train, X_test, y_train, y_test = make_test_data(df)
+    X_train, X_test, y_train, y_test = make_test_data(df)
 
     rf, y_pred_train, y_pred_test = perform_prediction(X_train, y_train, X_test)
-    print "train result: " + str(roc_auc_score(y_train, y_pred_train[:, 1]))
-    print "test result: " + str(roc_auc_score(y_test, y_pred_test[:,1]))
+    # print "train result: " + str(roc_auc_score(y_train, y_pred_train[:, 1]))
+    # print "test result: " + str(roc_auc_score(y_test, y_pred_test[:,1]))
     # train result: 0.985471668825
     # test result: 0.986046344273
 
-    print "feature importances: "
-    print rf.feature_importances_
+    # print "feature importances: "
+    # print rf.feature_importances_
 
     features = [0,1,2,3]
     names = X_train.columns
     fig, axs = plot_partial_dependence(rf, X_train, features,
                                        feature_names=names,
                                        n_jobs=3, grid_resolution=50)
-    plt.show()
+
+    plt.savefig('gdbr_feature_importance.png')

@@ -9,6 +9,13 @@ df.head()
 df.info()
 # No null values. Data types are correct.
 
+df.country.unique()
+df.age.unique()
+df.total_pages_visited.unique()
+df.source.unique()
+df.new_user.unique()
+df.converted.unique()
+
 df.describe()
 # Max age is 123 which does not seem right. A lot of people don't like to put their real birthday or find it annoying to do so. This could be due to such random entry. Should investigate histogram and potentially excluded anything above a certain threshold.
 
@@ -16,9 +23,15 @@ df.describe()
 
 plt.hist(df.age, bins=10)
 plt.show()
+plt.savefig('age_hist.png')
 
 df.boxplot(column='age')
-plt.show()
+plt.savefig('age_boxplot.png')
+
+df[df.age > 60].describe()
+df.shape
+
+237 * 1. / df.shape[0] * 100
 
 # clear outliers for age > 60
 df = df[df.age < 60]
@@ -47,7 +60,14 @@ df_age = df[['age','total_pages_visited','converted','cnt']].groupby('age').sum(
 df_age['user_ctr'] = df_age['converted'] * 1. / df_age['cnt']
 df_age['page_ctr'] = df_age['converted'] * 1. / df_age['total_pages_visited']
 plt.scatter(np.log(df_age.age), df_age.user_ctr)
+plt.xlabel('Age (log)')
+plt.ylabel('CVR')
 plt.show()
+plt.savefig('logage_vs_conversion.png')
+plt.scatter(df_age.age, df_age.user_ctr)
+plt.xlabel('Age')
+plt.ylabel('CVR')
+plt.savefig('age_vs_conversion.png')
 
 
 
@@ -69,8 +89,16 @@ df_page = df[['total_pages_visited','converted','cnt']].groupby('total_pages_vis
 df_page['user_ctr'] = df_page['converted'] * 1. / df_page['cnt']
 df_page['page_ctr'] = df_page['converted'] * 1. / df_page['total_pages_visited']
 df_page
-plt.scatter(df_page.total_pages_visited, df_page.user_ctr)
 plt.show()
+plt.scatter(df_page.total_pages_visited, df_page.user_ctr)
+plt.xlabel('Pages Visited')
+plt.ylabel('CVR')
+plt.savefig('age_vs_page.png')
+plt.show()
+plt.bar(df_page.total_pages_visited, df_page.cnt)
+plt.xlabel('Pages Visited')
+plt.ylabel('User Count')
+plt.savefig('page_bar.png')
 
 # conversion rate versus new user
 # existing user converts significantly more
